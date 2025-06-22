@@ -29,6 +29,7 @@ model User {
   password String
   role Role @default(USER)
   post Post[]
+  comments Comment[]
 }
 
 model Post {
@@ -36,8 +37,10 @@ model Post {
   title String
   content String
   author User @relation(fields: [authorId], references: [id])
-  authorId String @unique
+  authorId String
   comments Comment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
@@ -45,5 +48,9 @@ model Comment {
   title String
   content String
   Post Post @relation(fields: [postId], references: [id])
-  postId String @unique
+  postId String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
